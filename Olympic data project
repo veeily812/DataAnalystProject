@@ -1,0 +1,40 @@
+SELECT * 
+FROM INFORMATION_SCHEMA.TABLES 
+WHERE TABLE_NAME = 'ProjectOlympic';
+
+USE ProjectOlympic;
+
+SELECT * 
+FROM dbo.my_data;
+
+
+SELECT City, Year, Medal FROM dbo.my_data;
+/*Filtering Data*/
+
+SELECT * FROM dbo.my_data WHERE Country = 'USA';
+SELECT * FROM dbo.my_data WHERE Year = '1976';
+SELECT * FROM dbo.my_data WHERE Country = 'USA' AND Medal = 'Gold';
+
+/*sorting Data*/
+SELECT * FROM dbo.my_data ORDER BY Year DESC;
+/*Aggregating Data*/
+SELECT Country, COUNT(*) AS GoldMedals 
+FROM dbo.my_data
+WHERE Medal = 'Gold' 
+GROUP BY Country 
+HAVING COUNT(*) > 10;
+/*Data Modification*/
+DELETE FROM dbo.my_data WHERE Year IS NULL;
+/*advance queries*/
+
+SELECT Athlete 
+FROM dbo.my_data 
+GROUP BY Athlete 
+HAVING COUNT(*) = (
+  SELECT MAX(TotalMedals) 
+  FROM (SELECT Athlete, COUNT(*) AS TotalMedals FROM dbo.my_data GROUP BY Athlete) AS MedalCounts
+);
+
+
+
+
